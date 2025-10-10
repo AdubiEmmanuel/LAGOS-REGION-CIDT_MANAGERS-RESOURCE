@@ -1,4 +1,4 @@
-import { SNDPROProcess } from '../types/sndpro';
+import type { SNDPROProcess } from '../types/sndpro';
 
 export const sndproProcesses: SNDPROProcess[] = [
     {

@@ -1,4 +1,4 @@
-import { ResourceSection } from '../types/links';
+import type { ResourceSection } from '../types/links';
 
 export const gfcsSection: ResourceSection = {
     id: 'gfcs',
