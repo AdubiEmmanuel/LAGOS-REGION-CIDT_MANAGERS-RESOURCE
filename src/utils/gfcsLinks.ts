@@ -43,7 +43,7 @@ export const gfcsSection: ResourceSection = {
             id: 'password-change',
             title: 'Password Change',
             url: '#', // Replace with actual URL
-            description: 'Change your GFCS password',
+            description: 'Change DT password',
             category: 'GFCS'
         }
     ]
