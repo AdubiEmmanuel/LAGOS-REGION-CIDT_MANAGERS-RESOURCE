@@ -1,5 +1,3 @@
-import type { LeveredgeResource } from '../types/leveredge';
-
 export const getFileType = (fileName: string): string => {
     const extension = fileName.split('.').pop()?.toLowerCase() || '';
     // Normalize Office file extensions

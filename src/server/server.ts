@@ -2,7 +2,6 @@ import express from 'express';
 import type { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import path from 'path';
-import multer from 'multer';
 import { promises as fs } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -18,21 +17,7 @@ console.log('Resources directory:', path.join(__dirname, '../../public/resources
 const app = express();
 const port = process.env.PORT || 3001;
 
-// Configure multer for file uploads
-const storage = multer.diskStorage({
-    destination: function (_req, _file, cb) {
-        const uploadPath = path.join(__dirname, '../../public/resources/leveredge');
-        cb(null, uploadPath);
-    },
-    filename: function (_req, file, cb) {
-        // Sanitize filename
-        const sanitizedName = file.originalname
-            .toLowerCase()
-            .replace(/\s+/g, '-')
-            .replace(/[^a-z0-9.-]/g, '');
-        cb(null, sanitizedName);
-    }
-});
+// File handling is configured in the files route
 
 // Enable CORS and JSON parsing
 app.use(cors({

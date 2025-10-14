@@ -23,7 +23,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 import type { LeveredgeResource } from '../../types/leveredge';
-import { isPreviewable } from '../../utils/fileUtils';
 import { getOfficeViewerUrl, isOfficeFile } from '../../utils/officeViewer';
 
 interface ResourceCardProps {
@@ -242,9 +241,6 @@ export const ResourceCard = ({ resource, onDelete, onRename }: ResourceCardProps
 
     // All files are now previewable
     const isPreviewableFile = true;
-    
-    // Determine if we should use Office Viewer or direct URL
-    const shouldUseOfficeViewer = isOfficeFile(resource.fileUrl);
     
     return (
         <>
