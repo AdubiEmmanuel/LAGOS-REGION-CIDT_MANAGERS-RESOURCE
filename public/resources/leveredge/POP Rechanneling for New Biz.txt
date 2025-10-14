@@ -1,0 +1,2 @@
+update pop set sub_element='C11075' where town+locality+slocality+pop in ('
+

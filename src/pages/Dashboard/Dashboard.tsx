@@ -22,13 +22,16 @@ import CodeIcon from '@mui/icons-material/Code';
 import HelpIcon from '@mui/icons-material/Help';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import { ResourceSection } from '../../components/ResourceSection/ResourceSection';
 import { SNDPROSection } from '../../components/SNDPROSection/SNDPROSection';
 import { HowToSection } from '../../components/HowToSection/HowToSection';
 import { DocNumberFormatter } from '../../components/DocNumberFormatter/DocNumberFormatter';
+import { LeveredgeSection } from '../../components/LeveredgeSection/LeveredgeSection';
 import { gfcsSection } from '../../utils/gfcsLinks';
 import { sndproProcesses } from '../../utils/sndproData';
 import { howToGuides } from '../../utils/howToData';
+import { leveredgeResources } from '../../utils/leveredgeData';
 import { useState } from 'react';
 
 const DRAWER_WIDTH = 240;
@@ -61,6 +64,7 @@ export const Dashboard = () => {
         { id: 'gfcs', text: 'GFCS Links', icon: <LinkIcon /> },
         { id: 'sndpro', text: 'SNDPRO', icon: <CodeIcon /> },
         { id: 'howto', text: 'How-To Guides', icon: <HelpIcon /> },
+        { id: 'leveredge', text: 'Leveredge Resources', icon: <LibraryBooksIcon /> },
     ];
 
     const drawer = (
@@ -169,6 +173,7 @@ export const Dashboard = () => {
                     <ResourceSection section={gfcsSection} />
                     <SNDPROSection processes={sndproProcesses} />
                     <HowToSection guides={howToGuides} />
+                    <LeveredgeSection resources={leveredgeResources} />
                 </Container>
 
                 <Fab

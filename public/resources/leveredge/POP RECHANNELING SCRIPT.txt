@@ -1,0 +1,4 @@
+update POP set Sub_Element='C10028' where TOWN+LOCALITY+SLOCALITY+POP='TLA1100100190152565'		
+					
+			
+			

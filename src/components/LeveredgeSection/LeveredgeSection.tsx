@@ -1,0 +1,304 @@
+import { 
+    Box, 
+    Typography, 
+    Paper, 
+    IconButton, 
+    Card,
+    CardContent,
+    CardActions,
+    Button,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    DialogActions,
+    CircularProgress,
+    Snackbar,
+    Alert,
+    TextField
+} from '@mui/material';
+import DownloadIcon from '@mui/icons-material/Download';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import DescriptionIcon from '@mui/icons-material/Description';
+import TableChartIcon from '@mui/icons-material/TableChart';
+import SlideshowIcon from '@mui/icons-material/Slideshow';
+import CloseIcon from '@mui/icons-material/Close';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import DeleteIcon from '@mui/icons-material/Delete';
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
+import { useState, useEffect, useCallback } from 'react';
+import type { LeveredgeResource } from '../../types/leveredge';
+import { getFileType, formatFileName, isPreviewable } from '../../utils/fileUtils';
+import { getOfficeViewerUrl, isOfficeFile } from '../../utils/officeViewer';
+import { ResourceCard } from './ResourceCard';
+
+interface FileResponse {
+    name: string;
+    url: string;
+    size: number;
+    uploadDate: string;
+}
+
+interface Category {
+    id: string;
+    name: string;
+}
+
+export const LeveredgeSection = () => {
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+    const [resources, setResources] = useState<LeveredgeResource[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [uploading, setUploading] = useState(false);
+    const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({
+        open: false,
+        message: '',
+        severity: 'success'
+    });
+
+    const fetchResources = useCallback(async () => {
+        try {
+            const response = await fetch('/api/files');
+            if (!response.ok) {
+                throw new Error('Failed to fetch resources');
+            }
+
+            const files: FileResponse[] = await response.json();
+            
+            const mappedResources = files.map((file) => {
+                const fileId = `file-${btoa(file.name).replace(/[^a-zA-Z0-9]/g, '')}`;
+                // Determine the category
+                const category = file.name.toLowerCase().includes('stock')
+                    ? 'stock-count'
+                    : file.name.toLowerCase().includes('report')
+                        ? 'Reports'
+                        : 'Document';
+
+                return {
+                    id: fileId,
+                    name: file.name,
+                    title: formatFileName(file.name),
+                    fileUrl: file.url,
+                    fileType: getFileType(file.name) as LeveredgeResource['fileType'],
+                    fileSize: `${Math.round((file.size / (1024 * 1024)) * 100) / 100} MB`,
+                    uploadDate: file.uploadDate,
+                    category
+                };
+            });
+
+            setResources(mappedResources);
+        } catch (error) {
+            console.error('Error fetching resources:', error);
+            const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+            setSnackbar({
+                open: true,
+                message: `Error loading resources: ${errorMessage}`,
+                severity: 'error'
+            });
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchResources();
+    }, [fetchResources]);
+
+    const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (!event.target.files?.[0]) return;
+
+        const file = event.target.files[0];
+        const formData = new FormData();
+        formData.append('file', file);
+
+        setUploading(true);
+        try {
+            const response = await fetch('/api/files/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error('Upload failed');
+            }
+
+            await fetchResources();
+            setSnackbar({
+                open: true,
+                message: 'File uploaded successfully',
+                severity: 'success'
+            });
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+            setSnackbar({
+                open: true,
+                message: `Error uploading file: ${errorMessage}`,
+                severity: 'error'
+            });
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    // Get unique categories while preserving unique IDs
+    const uniqueCategories = new Set(resources.map(r => r.category.split('-')[0]));
+    const categories: Category[] = Array.from(uniqueCategories).map(baseCategory => ({
+        id: `category-${baseCategory}`,
+        name: baseCategory
+    }));
+
+    const filteredResources = selectedCategory 
+        ? resources.filter(r => r.category === selectedCategory)
+        : resources;
+
+    const handleDelete = async (filename: string) => {
+        try {
+            const encodedFilename = encodeURIComponent(filename);
+            const response = await fetch(`/api/files/${encodedFilename}`, {
+                method: 'DELETE'
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.error || 'Failed to delete file');
+            }
+
+            // Remove the deleted resource from the state
+            setResources(prevResources => prevResources.filter(r => r.name !== filename));
+            
+            setSnackbar({
+                open: true,
+                message: 'File deleted successfully',
+                severity: 'success'
+            });
+        } catch (error) {
+            console.error('Error deleting file:', error);
+            const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+            setSnackbar({
+                open: true,
+                message: `Error deleting file: ${errorMessage}`,
+                severity: 'error'
+            });
+        }
+    };
+
+    const handleRename = async (oldFilename: string, newName: string) => {
+        try {
+            const response = await fetch(`/api/files/${encodeURIComponent(oldFilename)}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ newName })
+            });
+            
+            if (!response.ok) {
+                throw new Error('Failed to rename file');
+            }
+
+            await fetchResources();
+            setSnackbar({
+                open: true,
+                message: 'File renamed successfully',
+                severity: 'success'
+            });
+        } catch (error) {
+            console.error('Error renaming file:', error);
+            const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+            setSnackbar({
+                open: true,
+                message: `Error renaming file: ${errorMessage}`,
+                severity: 'error'
+            });
+        }
+    };
+
+    return (
+        <Paper 
+            id="leveredge" 
+            sx={{ 
+                p: 3, 
+                mb: 3,
+                scrollMarginTop: '64px'
+            }}
+        >
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                <Typography variant="h4" component="h2">
+                    Leveredge Resources
+                </Typography>
+                <Box>
+                    <input
+                        accept="*/*"
+                        style={{ display: 'none' }}
+                        id="upload-file"
+                        type="file"
+                        onChange={handleFileUpload}
+                    />
+                    <label htmlFor="upload-file">
+                        <Button
+                            variant="contained"
+                            component="span"
+                            startIcon={<CloudUploadIcon />}
+                            disabled={uploading}
+                        >
+                            {uploading ? <CircularProgress size={24} /> : 'Upload File'}
+                        </Button>
+                    </label>
+                </Box>
+            </Box>
+            
+            {categories.length > 0 && (
+                <Box sx={{ mb: 3 }}>
+                    <Button 
+                        variant={selectedCategory === null ? "contained" : "outlined"}
+                        onClick={() => setSelectedCategory(null)}
+                        sx={{ mr: 1, mb: 1 }}
+                    >
+                        All
+                    </Button>
+                    {categories.map((category) => (
+                        <Button
+                            key={category.id}
+                            variant={selectedCategory === category.name ? "contained" : "outlined"}
+                            onClick={() => setSelectedCategory(category.name)}
+                            sx={{ mr: 1, mb: 1 }}
+                        >
+                            {category.name}
+                        </Button>
+                    ))}
+                </Box>
+            )}
+
+            {loading ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center', p: 3 }}>
+                    <CircularProgress />
+                </Box>
+            ) : (
+                <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: 3 }}>
+                    {filteredResources.map((resource) => (
+                        <Box key={resource.id} sx={{ display: 'flex', height: '100%' }}>
+                            <ResourceCard 
+                                resource={resource}
+                                onDelete={handleDelete}
+                                onRename={handleRename}
+                            />
+                        </Box>
+                    ))}
+                </Box>
+            )}
+
+            <Snackbar
+                open={snackbar.open}
+                autoHideDuration={6000}
+                onClose={() => setSnackbar(prev => ({ ...prev, open: false }))}
+            >
+                <Alert 
+                    onClose={() => setSnackbar(prev => ({ ...prev, open: false }))} 
+                    severity={snackbar.severity}
+                >
+                    {snackbar.message}
+                </Alert>
+            </Snackbar>
+        </Paper>
+    );
+};

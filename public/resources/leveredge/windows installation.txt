@@ -1,0 +1,17 @@
+Here's how to upgrade from Windows 7 to Windows 10:
+Back up all of your important documents, apps, and data.
+Head over to Microsoft's Windows 10 download site.
+In the Create Windows 10 installation media section, select “Download tool now,” and run the app.
+When prompted, choose “Upgrade this PC now.”
+
+ABOUT TEMP FOLDER IN C DRIVE
+Yes, all *files* in the temp folder (not the folder itself)  can, and should be, deleted periodically.
+
+The temp folder provides workspace for programs. Programs can create temporary files there for their own temporary use. Each program should delete all its temporary files when it closes, but for various reasons it doesn't always happen (for example, if the program crashes, it never gets to do this). That's why it's a good idea to periodically clean out anything left there.
+
+Also note that there are some program installations which work in two steps. The first step concludes by writing temporary files and rebooting. The second step starts automatically after rebooting and needs to find those files there (and then deletes them when it's done).
+
+Other than doing it automatically when rebooting (that would interfere with installations like the kind I described), it's always safe to delete the contents of the temp folder. Because it's safe to delete any temp files that aren't open and in use by an application, and since Windows won't let you delete open files, it's safe to (try to) delete them at any time. If any fail to delete because they're open, they'll either be deleted automatically when the app using them closes, or you'll get them the next time you delete manually.
+
+Some people may suggest that you reboot before deleting anything, but that's not necessary, for the reason described above (on the other hand, it doesn't hurt to do it).
+ 
