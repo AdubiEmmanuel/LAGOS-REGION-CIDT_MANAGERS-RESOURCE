@@ -19,11 +19,11 @@ const router = express.Router();
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: function (_req, _file, cb) {
         const uploadPath = path.join(__dirname, '../../../public/resources/leveredge');
         cb(null, uploadPath);
     },
-    filename: function (req, file, cb) {
+    filename: function (_req, file, cb) {
         // Sanitize filename - replace spaces with hyphens and make lowercase
         const sanitizedName = file.originalname
             .toLowerCase()
@@ -36,7 +36,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Set Content-Security-Policy header to allow Microsoft Office Online viewer
-router.use((req, res, next) => {
+router.use((_req, res, next) => {
     res.setHeader('Content-Security-Policy', "frame-ancestors 'self' https://view.officeapps.live.com");
     next();
 });

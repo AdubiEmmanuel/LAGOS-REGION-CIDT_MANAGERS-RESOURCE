@@ -3,6 +3,7 @@ import type { LeveredgeResource } from '../types/leveredge';
 export const leveredgeResources: LeveredgeResource[] = [
     {
         id: '1',
+        name: 'leveredge-manual.pdf',
         title: 'Leveredge User Manual',
         description: 'Comprehensive guide for using the Leveredge system',
         fileUrl: '/resources/leveredge-manual.pdf',
@@ -13,6 +14,7 @@ export const leveredgeResources: LeveredgeResource[] = [
     },
     {
         id: '2',
+        name: 'quick-start.pdf',
         title: 'Quick Start Guide',
         description: 'Get started with Leveredge in minutes',
         fileUrl: '/resources/quick-start.pdf',
@@ -23,6 +25,7 @@ export const leveredgeResources: LeveredgeResource[] = [
     },
     {
         id: '3',
+        name: 'training.pptx',
         title: 'Training Materials',
         description: 'Training slides and exercises',
         fileUrl: '/resources/training.pptx',
@@ -33,6 +36,7 @@ export const leveredgeResources: LeveredgeResource[] = [
     },
     {
         id: '4',
+        name: 'config-template.xlsx',
         title: 'Configuration Template',
         description: 'Standard configuration template for Leveredge setup',
         fileUrl: '/resources/config-template.xlsx',

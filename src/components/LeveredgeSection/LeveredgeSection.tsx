@@ -2,34 +2,15 @@ import {
     Box, 
     Typography, 
     Paper, 
-    IconButton, 
-    Card,
-    CardContent,
-    CardActions,
     Button,
-    Dialog,
-    DialogContent,
-    DialogTitle,
-    DialogActions,
     CircularProgress,
     Snackbar,
-    Alert,
-    TextField
+    Alert
 } from '@mui/material';
-import DownloadIcon from '@mui/icons-material/Download';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import DescriptionIcon from '@mui/icons-material/Description';
-import TableChartIcon from '@mui/icons-material/TableChart';
-import SlideshowIcon from '@mui/icons-material/Slideshow';
-import CloseIcon from '@mui/icons-material/Close';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import DeleteIcon from '@mui/icons-material/Delete';
-import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import { useState, useEffect, useCallback } from 'react';
 import type { LeveredgeResource } from '../../types/leveredge';
-import { getFileType, formatFileName, isPreviewable } from '../../utils/fileUtils';
-import { getOfficeViewerUrl, isOfficeFile } from '../../utils/officeViewer';
+import { getFileType, formatFileName } from '../../utils/fileUtils';
 import { ResourceCard } from './ResourceCard';
 
 interface FileResponse {
@@ -44,10 +25,14 @@ interface Category {
     name: string;
 }
 
-export const LeveredgeSection = () => {
+interface LeveredgeSectionProps {
+    resources?: LeveredgeResource[];
+}
+
+export const LeveredgeSection = ({ resources: initialResources = [] }: LeveredgeSectionProps) => {
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-    const [resources, setResources] = useState<LeveredgeResource[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [resources, setResources] = useState<LeveredgeResource[]>(initialResources);
+    const [loading, setLoading] = useState(!initialResources.length);
     const [uploading, setUploading] = useState(false);
     const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({
         open: false,
@@ -141,7 +126,7 @@ export const LeveredgeSection = () => {
     };
 
     // Get unique categories while preserving unique IDs
-    const uniqueCategories = new Set(resources.map(r => r.category.split('-')[0]));
+    const uniqueCategories = new Set(resources.map(r => (r.category || 'Uncategorized').split('-')[0]));
     const categories: Category[] = Array.from(uniqueCategories).map(baseCategory => ({
         id: `category-${baseCategory}`,
         name: baseCategory
