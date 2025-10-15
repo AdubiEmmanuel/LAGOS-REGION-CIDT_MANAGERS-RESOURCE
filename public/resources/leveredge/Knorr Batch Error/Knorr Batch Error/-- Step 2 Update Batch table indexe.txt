@@ -1,0 +1,7 @@
+-- Step 2: Update Batch table indexes
+    UPDATE BATCH 
+    SET BatchIndex = '0' 
+    WHERE BATCH <> '1-1' AND SKU = '64401562';
+    UPDATE BATCH 
+    SET BatchIndex = '1'
+    WHERE BATCH = '1-1' AND SKU = '64401562';

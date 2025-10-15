@@ -1,0 +1,15 @@
+-- Verify counts if needed
+    DECLARE @updatedCount INT = @@ROWCOUNT;
+    PRINT 'Successfully processed ' + CAST(@updatedCount AS VARCHAR) + ' records';
+    COMMIT TRANSACTION;
+    PRINT 'Transaction committed successfully';
+END TRY
+BEGIN CATCH
+    IF @@TRANCOUNT > 0
+        ROLLBACK TRANSACTION;
+    PRINT 'Error occurred: ' + ERROR_MESSAGE();
+    PRINT 'Error in procedure: ' + ERROR_PROCEDURE();
+    PRINT 'Error line: ' + CAST(ERROR_LINE() AS VARCHAR);
+    -- Re-throw the error to notify the caller
+    THROW;
+END CATCH;

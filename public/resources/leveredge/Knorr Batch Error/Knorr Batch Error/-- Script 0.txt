@@ -1,0 +1,6 @@
+BEGIN TRY
+    BEGIN TRANSACTION;
+    -- Backup affected records before modification
+    SELECT * INTO Cashmemo_detail_Backup_27032025 
+    FROM CASHMEMO_DETAIL  
+    WHERE BATCH <> '1-1' AND SKU = '64401562';
