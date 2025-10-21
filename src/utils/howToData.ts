@@ -85,5 +85,67 @@ export const howToGuides: HowToGuide[] = [
             'Run scripts in the specified order',
             'Contact support if you need further assistance'
         ]
+    },
+    {
+        id: 'batch-resolve',
+        title: 'Resolve BAtch Issue on skus sales process',
+        description: 'Step by step guide to remove duplicate batch 1-1-1 from sales process',
+        prerequisites: [
+            'Execute the following scripts in order',
+            'ensure you have necessary permissions'
+        ],
+        steps: [
+            {
+                id: 'select-batch',
+                order: 1,
+                description: 'Delete from BATCH table where BATCH is 1-1-1 for specific SKUs',
+                script: "SELECT * FROM BATCH WHERE BATCH = '1-1-1' AND SKU IN ('64401562','64997464','64997466')"
+            },
+            {
+                id: 'select-from-cashmemo_details',
+                order: 2,
+                description: 'select from CASHMEMO_DETAIL table',
+                script: "SELECT * FROM CASHMEMO_DETAIL WHERE BATCH = '1-1-1' AND SKU IN ('64401562','64997464','64997466')"
+            },
+            {
+                id: 'update-cashmemo_details',
+                order: 2,
+                description: 'Update from CASHMEMO_DETAIL table',
+                script: "UPDATE CASHMEMO_DETAIL SET BATCH = '1-1' WHERE BATCH = '1-1-1' AND SKU IN ('64401562','64997464','64997466')"
+            },
+            {
+                id: 'delete-cashmemo_details',
+                order: 2,
+                description: 'Delete from CASHMEMO_DETAIL table',
+                script: "DELETE FROM CASHMEMO_DETAIL WHERE BATCH = '1-1-1' AND SKU IN ('64401562','64997464','64997466')"
+            }
+        ],
+        notes: [
+            'Replace 64401562 with your actual affected sku code',
+            'Run scripts in the specified order',
+            'Contact support if you need further assistance'
+        ]
+    },
+    {
+        id: 'activate-pop',
+        title: 'Re-activate inactive POP',
+        description: 'Step by step guide to Activate inactive POP in the system',
+        prerequisites: [
+            'Execute the following scripts in order',
+            'ensure you have necessary permissions'
+        ],
+        steps: [
+            {
+                id: 'select-batch',
+                order: 1,
+                description:'update POP set active=1 where TOWN+LOCALITY+SLOCALITY+pop in ( ... )',
+                script: "'update POP set active=1 where TOWN+LOCALITY+SLOCALITY+pop in (`TLA5200900190101462`,`TLA5200600390238776 `,`TLA5200600190244028 `, `TLA5200600190244030`)'"
+            }        
+        ],
+        notes: [
+            'Replace TLA5200900190101462 with your actual POP code',
+            'Run scripts in the specified order',
+            'Contact support if you need further assistance'
+        ]
     }
 ];

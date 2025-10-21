@@ -119,7 +119,7 @@ export const Dashboard = () => {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" component="h1" color="primary" sx={{ flexGrow: 1 }}>
-                        LAGOS REGION CDIT MANAGER RESOURCE
+                       CDIT MANAGER RESOURCE
                     </Typography>
                 </Toolbar>
             </AppBar>

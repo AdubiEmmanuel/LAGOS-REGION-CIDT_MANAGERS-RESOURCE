@@ -35,7 +35,7 @@ export const gfcsSection: ResourceSection = {
         {
             id: 'ra',
             title: 'RA',
-            url: '#', // Replace with actual URL
+            url: 'https://unilever.sharepoint.com/:f:/s/LeverEDGENG/EnYoB-dv7_VPgG3x2pq3ZoYBfBxFV1hyGcdEy2KbbRZWcg?e=tpR4df&xsdata=MDV8MDJ8SmFsbGFsLk11cml0YWxhQHVuaWxldmVyLmNvbXw3NjU0YWRhYTc0NDU0Zjk1N2FhYjA4ZGUwMzY3NDZhZnxmNjZmYWUwMjVkMzY0OTViYmZlMDc4YTZmZjlmOGU2ZXwxfDB8NjM4OTUxOTM5Mzk1NzA0MTM2fFVua25vd258VFdGcGJHWnNiM2Q4ZXlKRmJYQjBlVTFoY0draU9uUnlkV1VzSWxZaU9pSXdMakF1TURBd01DSXNJbEFpT2lKWGFXNHpNaUlzSWtGT0lqb2lUV0ZwYkNJc0lsZFVJam95ZlE9PXwwfHx8&sdata=V0xFb1BUdnNmZWRHTU0zVFFEWUQxdlhmcDBZSDF5QzRyRHI4clZSQWhKYz0%3d', // Replace with actual URL
             description: 'Resource allocation information',
             category: 'GFCS'
         },
