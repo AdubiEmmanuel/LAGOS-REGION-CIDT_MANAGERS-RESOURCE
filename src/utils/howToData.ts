@@ -49,7 +49,41 @@ export const howToGuides: HowToGuide[] = [
                 id: 'check-da-head',
                 order: 1,
                 description: "update QS_UPDATED_VERSION set QS_PREV_ROW_VER='99'",
-                script: "update QS_UPDATED_VERSION set QS_PREV_ROW_VER='99',QS_ROW_VER='100' where QS_TABLE_ID in (select QS_TABLE_ID from QS_TABLE where TABLE_NAME in ('company_price_structure','master_sku','sku','batch','price_structure') and QS_TYPE='D'"
+                script: "update QS_UPDATED_VERSION set QS_PREV_ROW_VER='99',QS_ROW_VER='100' where QS_TABLE_ID in (select QS_TABLE_ID from QS_TABLE where TABLE_NAME in ('company_price_structure','master_sku','sku','batch','price_structure') and QS_TYPE='D')"
+            },
+            
+        ],
+        notes: [
+           'Double-check the SCRIPTS ensure all parenthesis are closed'
+            
+        ]
+    },
+    {
+        id: 'price-update',
+        title: 'UPDATE-PRICE-OF-SKUS',
+        description: 'Step by step guide to UPDATE PRICE OF SKUS on DT.',
+        prerequisites: [
+            'Access to the database',
+            'Distributor code ready (example: 18033402)'
+        ],
+        steps: [
+            {
+                id: 'UPDATE-PRICE_UNIT',
+                order: 1,
+                description: "UPDATE PRICE_STRUCTURE SET PRICE_UNIT1",
+                script: "UPDATE PRICE_STRUCTURE SET PRICE_UNIT1 = '195839.04', PRICE_UNIT3 = '4079.98', PRICE_STANDARD = '195839.04', RPRICE_UNIT1 = '195839.04', RPRICE_UNIT3 = '4079.98', RPRICE_STANDARD = '195839.04', GPRICE_UNIT1 = '195839.04', GPRICE_UNIT3 = '4079.98', GRPRICE_UNIT1 = '195839.04', GRPRICE_UNIT3 = '4079.98', PRICE_PURCHASE1='185361.60 ', PRICE_PURCHASE2 = '0', PRICE_PURCHASE3 = '3861.70', GPRICE_PURCHASE1 = '185361.60', GPRICE_PURCHASE2 = '0', GPRICE_PURCHASE3 = '3861.70', Retail_Price = '195839.04', MRSP = '195839.04' WHERE SKU IN ('21087115','20204888','20268731','21087112','21087113','21087111') AND PRICE_STRUC = '0001';"
+            },
+            {
+                id: 'SET-EFFECTIVE_DATE',
+                order: 2,
+                description: "UPDATE PRICE_STRUCTURE SET EFFECTIVE_DATE",
+                script: "UPDATE PRICE_STRUCTURE SET EFFECTIVE_DATE = '19-AUGUST-2025' WHERE SKU IN ('21087115','20204888','20268731','21087112','21087113','21087111') AND PRICE_STRUC = '0001';"
+            },
+            {
+                id: 'CHECK-REFRESH-FILE',
+                order: 3,
+                description: "select distinct a.sku",
+                script: "select distinct a.SKU,b.LDESC 'SKU DESCRIPTION',a.PRICE_STRUC,PRICE_UNIT1,PRICE_UNIT3 from PRICE_STRUCTURE a inner join SKU b on a.SKU=b.SKU inner join DISTRIBUTOR c on a.DISTRIBUTOR=c.DISTRIBUTOR where EFFECTIVE_DATE = '20250819' and PRICE_STRUC IN ('0001') "
             },
             
         ],
