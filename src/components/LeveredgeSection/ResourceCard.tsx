@@ -40,9 +40,11 @@ interface PreviewDialogProps {
 const PreviewDialog = ({ open, onClose, resource }: PreviewDialogProps) => {
     // Determine how to display the content based on file type
     const getViewerContent = () => {
-        const fileUrl = resource.fileUrl.toLowerCase();
-        const isOffice = isOfficeFile(resource.fileUrl);
-        const viewerUrl = isOffice ? getOfficeViewerUrl(resource.fileUrl) : resource.fileUrl;
+    const fileUrl = resource.fileUrl.toLowerCase();
+    // Prefer explicit fileType (set when resources are mapped). Fallback to extension from URL.
+    const fileType = resource.fileType || (fileUrl.split('.').pop() || '');
+    const isOffice = isOfficeFile(fileType);
+    const viewerUrl = isOffice ? getOfficeViewerUrl(resource.fileUrl) : resource.fileUrl;
         
         if (fileUrl.endsWith('.pdf')) {
             return (

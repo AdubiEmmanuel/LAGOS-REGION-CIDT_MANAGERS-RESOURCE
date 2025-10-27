@@ -19,7 +19,7 @@ export const gfcsSection: ResourceSection = {
             category: 'GFCS'
         },
         {
-            id: 'stock-count',
+            id: 'stock-count-folder',
             title: 'GENERAL GFCS FOLDER',
             url: 'https://unilever.sharepoint.com/:f:/r/sites/LagosRegionReportingDashboard2/Shared%20Documents/GFCF?csf=1&web=1&e=iNdcVp', // Replace with actual URL
             description: 'Access GENERAL GFCS information',

@@ -37,6 +37,28 @@ export const howToGuides: HowToGuide[] = [
         ]
     },
     {
+        id: 'qs-partial',
+        title: 'QS-PARTIAL',
+        description: 'Step by step guide to resolve PARTIAL issue for QS on DT.',
+        prerequisites: [
+            'Access to the database',
+            'Distributor code ready (example: 18033402)'
+        ],
+        steps: [
+            {
+                id: 'check-da-head',
+                order: 1,
+                description: "update QS_UPDATED_VERSION set QS_PREV_ROW_VER='99'",
+                script: "update QS_UPDATED_VERSION set QS_PREV_ROW_VER='99',QS_ROW_VER='100' where QS_TABLE_ID in (select QS_TABLE_ID from QS_TABLE where TABLE_NAME in ('company_price_structure','master_sku','sku','batch','price_structure') and QS_TYPE='D'"
+            },
+            
+        ],
+        notes: [
+           'Double-check the document numbers before running the update query',
+            'The example DOC_NO values are for reference only - use your actual values'
+        ]
+    },
+    {
         id: 'delete-mis-kpi',
         title: 'Delete Old MIS/IQ KPI Data',
         description: 'Remove historical MIS/KPI data from the system',
@@ -144,6 +166,40 @@ export const howToGuides: HowToGuide[] = [
         ],
         notes: [
             'Replace TLA5200900190101462 with your actual POP code',
+            'Run scripts in the specified order',
+            'Contact support if you need further assistance'
+        ]
+    },
+    {
+        id: 'delete-cashmemo',
+        title: 'HOW TO DELETE CASHMEMO WITH SCRIPTS',
+        description: 'Step by step guide to delete cashmemo from the system',
+        prerequisites: [
+            'Execute the following scripts in order',
+            'ensure you have necessary permissions'
+        ],
+        steps: [
+            {
+                id: 'select-cashmemo',
+                order: 1,
+                description:"'SELECT ALL FROM CASHMEMO",
+                script: "SELECT * FROM CASHMEMO WHERE DOC_DATE='' AND PJP IN ('P120', 'P240') AND DOC_NO IN ('')"
+            },        
+            {
+                id: 'select-cashmemo-detail',
+                order: 1,
+                description:"'SELECT ALL FROM CASHMEMO_DETAIL",
+                script: "SELECT * FROM CASHMEMO_DETAIL WHERE PJP IN ('P120', 'P240') AND DOC_NO IN ('')"
+            },        
+            {
+                id: 'update-cashmemo',
+                order: 1,
+                description:"'UPDATE CASHMEMO",
+                script: "SELECT * FROM CASHMEMO WHERE DOC_DATE='29-SEPTEMBER-2025' AND DOC_NO IN ('8394833893','39483984933')"
+            }        
+        ],
+        notes: [
+            'Replace P120, DOC_DATE, DOC_NO with your actual code respectively!',
             'Run scripts in the specified order',
             'Contact support if you need further assistance'
         ]

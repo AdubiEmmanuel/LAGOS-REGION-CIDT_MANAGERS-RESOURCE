@@ -1,9 +1,19 @@
 export const getOfficeViewerUrl = (fileUrl: string): string => {
-    // Encode the file URL to be used as a parameter
-    const encodedUrl = encodeURIComponent(fileUrl);
-    
-    // Use Google Docs viewer which works better with localhost
-    return `https://docs.google.com/viewer?embedded=true&url=${encodedUrl}`;
+    // Ensure we have an absolute URL so external viewers can fetch the file
+    let absoluteUrl = fileUrl;
+    try {
+        // If running in browser and fileUrl is relative, prepend origin
+        if (typeof window !== 'undefined' && fileUrl.startsWith('/')) {
+            absoluteUrl = `${window.location.origin}${fileUrl}`;
+        }
+    } catch (e) {
+        // ignore - fallback to provided fileUrl
+    }
+
+    const encodedUrl = encodeURIComponent(absoluteUrl);
+
+    // Prefer Microsoft Office online viewer which supports more office formats
+    return `https://view.officeapps.live.com/op/embed.aspx?src=${encodedUrl}`;
 };
 
 export const isOfficeFile = (fileType: string): boolean => {

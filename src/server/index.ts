@@ -1,5 +1,5 @@
-import app from './app';
-import { ensureUploadDirectory } from './utils/directory';
+import app from './app.js';
+import { ensureUploadDirectory } from './utils/directory.js';
 
 const port = Number(process.env.PORT || 3001);
 
