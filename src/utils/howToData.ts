@@ -88,8 +88,9 @@ export const howToGuides: HowToGuide[] = [
             
         ],
         notes: [
-           'Double-check the document numbers before running the update query',
-            'The example DOC_NO values are for reference only - use your actual values'
+           'Replace 21087115 with your actual SKU CODE',
+            'Run scripts in the specified order',
+            'Contact support if you need further assistance'
         ]
     },
     {
@@ -218,19 +219,20 @@ export const howToGuides: HowToGuide[] = [
                 order: 1,
                 description:"'SELECT ALL FROM CASHMEMO",
                 script: "SELECT * FROM CASHMEMO WHERE DOC_DATE='' AND PJP IN ('P120', 'P240') AND DOC_NO IN ('')"
-            },        
-            {
-                id: 'select-cashmemo-detail',
-                order: 1,
-                description:"'SELECT ALL FROM CASHMEMO_DETAIL",
-                script: "SELECT * FROM CASHMEMO_DETAIL WHERE PJP IN ('P120', 'P240') AND DOC_NO IN ('')"
-            },        
+            },
             {
                 id: 'update-cashmemo',
                 order: 1,
                 description:"'UPDATE CASHMEMO",
-                script: "SELECT * FROM CASHMEMO WHERE DOC_DATE='29-SEPTEMBER-2025' AND DOC_NO IN ('8394833893','39483984933')"
-            }        
+                script: "UPDATE CASHMEMO SET NET_AMOUNT=0 WHERE DOC_DATE='' AND POP_NAME LIKE '%IYABOSE SHOP%' AND  DOC_NO=''"
+            },          
+            {
+                id: 'delete-cashmemo',
+                order: 2,
+                description:"'DELETE FROM CASHMEMO",
+                script: "DELETE FROM CASHMEMO WHERE DOC_DATE='' AND POP_NAME LIKE '%IYABOSE SHOP%' AND  DOC_NO=''"
+            },        
+                  
         ],
         notes: [
             'Replace P120, DOC_DATE, DOC_NO with your actual code respectively!',
