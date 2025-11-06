@@ -206,6 +206,28 @@ export const howToGuides: HowToGuide[] = [
         ]
     },
     {
+        id: 'reset-pop-geomatch',
+        title: 'Reset Geo-match for POPs',
+        description: 'Step by step guide to reset geo match for POP in the system',
+        prerequisites: [
+            'Execute the following scripts in order',
+            'ensure you have necessary permissions'
+        ],
+        steps: [
+            {
+                id: 'update-pop-geomatch',
+                order: 1,
+                description:'GEO CODE RESET SCRIPTS ',
+                script: "update POP set LONGITUDE=0, LATITUDE=0    where ACTIVE=1  and TOWN+LOCALITY+SLOCALITY+POP in ('TLA5200900190101462')"
+            }        
+        ],
+        notes: [
+            'Replace TLA5200900190101462 with your actual POP code',
+            'Run scripts in the specified order',
+            'Contact support if you need further assistance'
+        ]
+    },
+    {
         id: 'delete-cashmemo',
         title: 'HOW TO DELETE CASHMEMO WITH SCRIPTS',
         description: 'Step by step guide to delete cashmemo from the system',
