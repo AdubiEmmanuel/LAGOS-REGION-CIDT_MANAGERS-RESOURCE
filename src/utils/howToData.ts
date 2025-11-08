@@ -1,4 +1,26 @@
-import type { HowToGuide } from '../types/howTo';
+import type { HowToGuide, ChannelMapping } from '../types/howTo';
+
+/**
+ * Channel mapping data for POP SUB_ELEMENT codes.
+ * Used for POP rechanneling and channel mapping operations.
+ * 
+ * @type {ChannelMapping[]}
+ * @property {string} SUB_ELEMENT - The unique channel code (e.g., C10001)
+ * @property {string} SDESC - Short description of the channel (e.g., WS)
+ * @property {string} LDESC - Long description of the channel (e.g., WHOLESALER)
+ */
+export const channelMappings: ChannelMapping[] = [
+    { SUB_ELEMENT: 'C10001', SDESC: 'WS', LDESC: 'WHOLESALER' },
+    { SUB_ELEMENT: 'C10002', SDESC: 'KA', LDESC: 'KEY ACCOUNT' },
+    { SUB_ELEMENT: 'C10003', SDESC: 'GT', LDESC: 'GENERAL TRADE' },
+    { SUB_ELEMENT: 'C10004', SDESC: 'DRL', LDESC: 'DISTRIBUTOR RETAIL' },
+    { SUB_ELEMENT: 'C10005', SDESC: 'DWS', LDESC: 'DISTRIBUTOR WHOLESALE' },
+    { SUB_ELEMENT: 'C10006', SDESC: 'TSR', LDESC: 'TERRITORY SALES REP' },
+    { SUB_ELEMENT: 'C10007', SDESC: 'SMK', LDESC: 'SUPERMARKET' },
+    { SUB_ELEMENT: 'C10008', SDESC: 'BSR', LDESC: 'BRAND SALES REP' },
+    { SUB_ELEMENT: 'C10009', SDESC: 'OMLS', LDESC: 'OMLS' },
+    { SUB_ELEMENT: 'C10010', SDESC: 'OMFS', LDESC: 'OMFS' }
+];
 
 export const howToGuides: HowToGuide[] = [
     {

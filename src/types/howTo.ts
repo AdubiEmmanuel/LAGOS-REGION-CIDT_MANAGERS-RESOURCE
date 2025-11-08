@@ -13,3 +13,9 @@ export interface HowToGuide {
     steps: StepScript[];
     notes?: string[];
 }
+
+export interface ChannelMapping {
+    SUB_ELEMENT: string;
+    SDESC: string;
+    LDESC: string;
+}
