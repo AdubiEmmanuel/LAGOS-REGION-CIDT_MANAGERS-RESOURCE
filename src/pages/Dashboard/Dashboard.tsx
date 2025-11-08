@@ -23,11 +23,13 @@ import HelpIcon from '@mui/icons-material/Help';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import TableChartIcon from '@mui/icons-material/TableChart';
 import { ResourceSection } from '../../components/ResourceSection/ResourceSection';
 import { SNDPROSection } from '../../components/SNDPROSection/SNDPROSection';
 import { HowToSection } from '../../components/HowToSection/HowToSection';
 import { DocNumberFormatter } from '../../components/DocNumberFormatter/DocNumberFormatter';
 import { LeveredgeSection } from '../../components/LeveredgeSection/LeveredgeSection';
+import ChannelMappingSection from '../../components/ChannelMappingSection/ChannelMappingSection';
 import { gfcsSection } from '../../utils/gfcsLinks';
 import { sndproProcesses } from '../../utils/sndproData';
 import { howToGuides } from '../../utils/howToData';
@@ -35,6 +37,15 @@ import { leveredgeResources } from '../../utils/leveredgeData';
 import { useState } from 'react';
 
 const DRAWER_WIDTH = 240;
+
+const sections = [
+    { id: 'resources', label: 'Resources', icon: <LinkIcon /> },
+    { id: 'sndpro', label: 'SND PRO', icon: <FormatListNumberedIcon /> },
+    { id: 'leveredge', label: 'LeverEDGE', icon: <LibraryBooksIcon /> },
+    { id: 'howto', label: 'How To Guides', icon: <HelpIcon /> },
+    { id: 'docformatter', label: 'Doc Formatter', icon: <CodeIcon /> },
+    { id: 'channels', label: 'Channel Codes', icon: <TableChartIcon /> },
+];
 
 export const Dashboard = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -172,8 +183,19 @@ export const Dashboard = () => {
                     </Paper>
                     <ResourceSection section={gfcsSection} />
                     <SNDPROSection processes={sndproProcesses} />
+                    <Paper 
+                        id="channels" 
+                        sx={{ 
+                            p: 3, 
+                            mb: 3,
+                            scrollMarginTop: '64px'
+                        }}
+                    >
+                        <ChannelMappingSection />
+                    </Paper>
                     <HowToSection guides={howToGuides} />
                     <LeveredgeSection resources={leveredgeResources} />
+                    
                 </Container>
 
                 <Fab
