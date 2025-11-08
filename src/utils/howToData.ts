@@ -24,6 +24,191 @@ export const channelMappings: ChannelMapping[] = [
 
 export const howToGuides: HowToGuide[] = [
     {
+        id: 'rechannel-pop-ws',
+        title: 'Rechannel POP to Wholesaler (WS)',
+        description: 'Step by step guide to rechannel a POP to the Wholesaler (WS) channel',
+        prerequisites: [
+            'Access to the database',
+            'POP codes ready to rechannel',
+            'Verify the POP is valid and active'
+        ],
+        steps: [
+            {
+                id: 'verify-pop',
+                order: 1,
+                description: 'Verify current POP details before rechanneling',
+                script: "SELECT POP, SUB_ELEMENT, ACTIVE FROM POP WHERE TOWN+LOCALITY+SLOCALITY+POP in ('TLA5200900190101462')"
+            },
+            {
+                id: 'update-channel',
+                order: 2,
+                description: 'Update POP SUB_ELEMENT to WS channel (C10001)',
+                script: "UPDATE POP SET SUB_ELEMENT = 'C10001' WHERE TOWN+LOCALITY+SLOCALITY+POP in ('TLA5200900190101462')"
+            },
+            {
+                id: 'verify-update',
+                order: 3,
+                description: 'Verify the channel update was successful',
+                script: "SELECT POP, SUB_ELEMENT, ACTIVE FROM POP WHERE TOWN+LOCALITY+SLOCALITY+POP in ('TLA5200900190101462')"
+            }
+        ],
+        notes: [
+            'Replace TLA5200900190101462 with your actual POP code',
+            'Ensure to use the correct SUB_ELEMENT code (C10001 for WS)',
+            'Run scripts in order to verify the change',
+            'Multiple POP codes can be added using commas: (\'CODE1\',\'CODE2\')',
+            'Contact support if you need further assistance'
+        ]
+    },
+    {
+        id: 'rechannel-pop-rural-dpoint',
+        title: 'POP Rechanneling For New Rural DPoint',
+        description: 'Step by step guide to rechannel a POP to the New Rural DPoint channel',
+        prerequisites: [
+            'Access to the database',
+            'POP codes ready to rechannel',
+            'Verify the POP is valid and active'
+        ],
+        steps: [
+            {
+                id: 'verify-pop',
+                order: 1,
+                description: 'Verify current POP details before rechanneling',
+                script: "SELECT POP, SUB_ELEMENT, ACTIVE FROM POP WHERE TOWN+LOCALITY+SLOCALITY+POP in ('TWE2400300190272236')"
+            },
+            {
+                id: 'update-channel',
+                order: 2,
+                description: 'Update POP SUB_ELEMENT to New Rural DPoint channel (C11075)',
+                script: "UPDATE POP SET SUB_ELEMENT = 'C11075' WHERE TOWN+LOCALITY+SLOCALITY+POP in ('TWE2400300190272236')"
+            },
+            {
+                id: 'verify-update',
+                order: 3,
+                description: 'Verify the channel update was successful',
+                script: "SELECT POP, SUB_ELEMENT, ACTIVE FROM POP WHERE TOWN+LOCALITY+SLOCALITY+POP in ('TWE2400300190272236')"
+            }
+        ],
+        notes: [
+            'Replace TWE2400300190272236 with your actual POP code',
+            'Ensure to use the correct SUB_ELEMENT code (C11075 for New Rural DPoint)',
+            'Run scripts in order to verify the change',
+            'Multiple POP codes can be added using commas: (\'CODE1\',\'CODE2\')',
+            'Contact support if you need further assistance'
+        ]
+    },
+    {
+        id: 'rechannel-pop-new-biz',
+        title: 'POP Rechanneling For New Biz',
+        description: 'Step by step guide to rechannel a POP to the New Biz channel',
+        prerequisites: [
+            'Access to the database',
+            'POP codes ready to rechannel',
+            'Verify the POP is valid and active'
+        ],
+        steps: [
+            {
+                id: 'verify-pop',
+                order: 1,
+                description: 'Verify current POP details before rechanneling',
+                script: "SELECT POP, SUB_ELEMENT, ACTIVE FROM POP WHERE TOWN+LOCALITY+SLOCALITY+POP in ('')"
+            },
+            {
+                id: 'update-channel',
+                order: 2,
+                description: 'Update POP SUB_ELEMENT to New Biz channel (C11075)',
+                script: "UPDATE POP SET SUB_ELEMENT = 'C11075' WHERE TOWN+LOCALITY+SLOCALITY+POP in ('')"
+            },
+            {
+                id: 'verify-update',
+                order: 3,
+                description: 'Verify the channel update was successful',
+                script: "SELECT POP, SUB_ELEMENT, ACTIVE FROM POP WHERE TOWN+LOCALITY+SLOCALITY+POP in ('')"
+            }
+        ],
+        notes: [
+            'Insert your POP code(s) within the empty quotes (\'\') in the scripts',
+            'Ensure to use the correct SUB_ELEMENT code (C11075 for New Biz)',
+            'Run scripts in order to verify the change',
+            'Multiple POP codes can be added using commas: (\'CODE1\',\'CODE2\')',
+            'Contact support if you need further assistance'
+        ]
+    },
+    {
+        id: 'rechannel-pop-nls',
+        title: 'POP Rechanneling For NLS',
+        description: 'Step by step guide to rechannel a POP to the National Listing Service (NLS) channel',
+        prerequisites: [
+            'Access to the database',
+            'POP codes ready to rechannel',
+            'Verify the POP is valid and active'
+        ],
+        steps: [
+            {
+                id: 'verify-pop',
+                order: 1,
+                description: 'Verify current POP details before rechanneling',
+                script: "SELECT POP, SUB_ELEMENT, ACTIVE FROM POP WHERE TOWN+LOCALITY+SLOCALITY+POP in ('')"
+            },
+            {
+                id: 'update-channel',
+                order: 2,
+                description: 'Update POP SUB_ELEMENT to NLS channel (C10104)',
+                script: "UPDATE POP SET SUB_ELEMENT = 'C10104' WHERE TOWN+LOCALITY+SLOCALITY+POP in ('')"
+            },
+            {
+                id: 'verify-update',
+                order: 3,
+                description: 'Verify the channel update was successful',
+                script: "SELECT POP, SUB_ELEMENT, ACTIVE FROM POP WHERE TOWN+LOCALITY+SLOCALITY+POP in ('')"
+            }
+        ],
+        notes: [
+            'Insert your POP code(s) within the empty quotes (\'\') in the scripts',
+            'Ensure to use the correct SUB_ELEMENT code (C10104 for NLS)',
+            'Run scripts in order to verify the change',
+            'Multiple POP codes can be added using commas: (\'CODE1\',\'CODE2\')',
+            'Contact support if you need further assistance'
+        ]
+    },
+    {
+        id: 'rechannel-pop-omfs-retail',
+        title: 'POP Rechanneling For OMFS RETAIL',
+        description: 'Step by step guide to rechannel a POP to the OMFS RETAIL channel',
+        prerequisites: [
+            'Access to the database',
+            'POP codes ready to rechannel',
+            'Verify the POP is valid and active'
+        ],
+        steps: [
+            {
+                id: 'verify-pop',
+                order: 1,
+                description: 'Verify current POP details before rechanneling',
+                script: "SELECT POP, SUB_ELEMENT, ACTIVE FROM POP WHERE TOWN+LOCALITY+SLOCALITY+POP in ('')"
+            },
+            {
+                id: 'update-channel',
+                order: 2,
+                description: 'Update POP SUB_ELEMENT to OMFS RETAIL channel (C10720)',
+                script: "UPDATE POP SET SUB_ELEMENT = 'C10720' WHERE TOWN+LOCALITY+SLOCALITY+POP in ('')"
+            },
+            {
+                id: 'verify-update',
+                order: 3,
+                description: 'Verify the channel update was successful',
+                script: "SELECT POP, SUB_ELEMENT, ACTIVE FROM POP WHERE TOWN+LOCALITY+SLOCALITY+POP in ('')"
+            }
+        ],
+        notes: [
+            'Insert your POP code(s) within the empty quotes (\'\') in the scripts',
+            'Ensure to use the correct SUB_ELEMENT code (C10720 for OMFS RETAIL)',
+            'Run scripts in order to verify the change',
+            'Multiple POP codes can be added using commas: (\'CODE1\',\'CODE2\')',
+            'Contact support if you need further assistance'
+        ]
+    },
+    {
         id: 'resolve-fibn-da',
         title: 'Resolve DA Issue for FIBN',
         description: 'Step by step guide to resolve DA issues for FIBN distributor',
@@ -72,12 +257,10 @@ export const howToGuides: HowToGuide[] = [
                 order: 1,
                 description: "update QS_UPDATED_VERSION set QS_PREV_ROW_VER='99'",
                 script: "update QS_UPDATED_VERSION set QS_PREV_ROW_VER='99',QS_ROW_VER='100' where QS_TABLE_ID in (select QS_TABLE_ID from QS_TABLE where TABLE_NAME in ('company_price_structure','master_sku','sku','batch','price_structure') and QS_TYPE='D')"
-            },
-            
+            }
         ],
         notes: [
            'Double-check the SCRIPTS ensure all parenthesis are closed'
-            
         ]
     },
     {
@@ -106,8 +289,7 @@ export const howToGuides: HowToGuide[] = [
                 order: 3,
                 description: "select distinct a.sku",
                 script: "select distinct a.SKU,b.LDESC 'SKU DESCRIPTION',a.PRICE_STRUC,PRICE_UNIT1,PRICE_UNIT3 from PRICE_STRUCTURE a inner join SKU b on a.SKU=b.SKU inner join DISTRIBUTOR c on a.DISTRIBUTOR=c.DISTRIBUTOR where EFFECTIVE_DATE = '20250819' and PRICE_STRUC IN ('0001') "
-            },
-            
+            }
         ],
         notes: [
            'Replace 21087115 with your actual SKU CODE',
@@ -135,74 +317,6 @@ export const howToGuides: HowToGuide[] = [
             'This operation cannot be undone',
             'Verify the year in the script before running',
             'Consider archiving old data before deletion'
-        ]
-    },
-    {
-        id: 'remove-asn',
-        title: 'Remove ASN (DA) from System',
-        description: 'Step by step guide to safely remove an ASN from the system',
-        prerequisites: [
-            'Have the Document Number ready',
-            'Ensure the ASN is not in use'
-        ],
-        steps: [
-            {
-                id: 'delete-da-head',
-                order: 1,
-                description: 'Delete from DA_HEAD table where status is 0',
-                script: "delete from da_head WHERE DOC_NO = ('5120178906') AND STATUS = '0'"
-            },
-            {
-                id: 'delete-trans-detail',
-                order: 2,
-                description: 'Delete from TRANS_DETAIL table',
-                script: "delete from trans_detail WHERE DOC_NO = ('5120178906')"
-            }
-        ],
-        notes: [
-            'Replace 5120178906 with your actual Document Number',
-            'Run scripts in the specified order',
-            'Contact support if you need further assistance'
-        ]
-    },
-    {
-        id: 'batch-resolve',
-        title: 'Resolve BAtch Issue on skus sales process',
-        description: 'Step by step guide to remove duplicate batch 1-1-1 from sales process',
-        prerequisites: [
-            'Execute the following scripts in order',
-            'ensure you have necessary permissions'
-        ],
-        steps: [
-            {
-                id: 'select-batch',
-                order: 1,
-                description: 'Delete from BATCH table where BATCH is 1-1-1 for specific SKUs',
-                script: "SELECT * FROM BATCH WHERE BATCH = '1-1-1' AND SKU IN ('64401562','64997464','64997466')"
-            },
-            {
-                id: 'select-from-cashmemo_details',
-                order: 2,
-                description: 'select from CASHMEMO_DETAIL table',
-                script: "SELECT * FROM CASHMEMO_DETAIL WHERE BATCH = '1-1-1' AND SKU IN ('64401562','64997464','64997466')"
-            },
-            {
-                id: 'update-cashmemo_details',
-                order: 2,
-                description: 'Update from CASHMEMO_DETAIL table',
-                script: "UPDATE CASHMEMO_DETAIL SET BATCH = '1-1' WHERE BATCH = '1-1-1' AND SKU IN ('64401562','64997464','64997466')"
-            },
-            {
-                id: 'delete-cashmemo_details',
-                order: 2,
-                description: 'Delete from CASHMEMO_DETAIL table',
-                script: "DELETE FROM CASHMEMO_DETAIL WHERE BATCH = '1-1-1' AND SKU IN ('64401562','64997464','64997466')"
-            }
-        ],
-        notes: [
-            'Replace 64401562 with your actual affected sku code',
-            'Run scripts in the specified order',
-            'Contact support if you need further assistance'
         ]
     },
     {
@@ -275,8 +389,7 @@ export const howToGuides: HowToGuide[] = [
                 order: 2,
                 description:"'DELETE FROM CASHMEMO",
                 script: "DELETE FROM CASHMEMO WHERE DOC_DATE='' AND POP_NAME LIKE '%IYABOSE SHOP%' AND  DOC_NO=''"
-            },        
-                  
+            }
         ],
         notes: [
             'Replace P120, DOC_DATE, DOC_NO with your actual code respectively!',
