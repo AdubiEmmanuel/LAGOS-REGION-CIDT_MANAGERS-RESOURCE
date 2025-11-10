@@ -24,6 +24,96 @@ export const channelMappings: ChannelMapping[] = [
 
 export const howToGuides: HowToGuide[] = [
     {
+        id: 'resolve-batch-error',
+        title: 'Resolve SKU Batch Error (Non 1-1 Batch)',
+        description: 'Comprehensive solution to fix SKU batch issues where batch is not 1-1, including backup and cleanup steps',
+        prerequisites: [
+            'Access to the database',
+            'Affected SKU number',
+            'Backup before proceeding',
+            'Verify the SKU and batch information'
+        ],
+        steps: [
+            {
+                id: 'backup-records',
+                order: 1,
+                description: 'Create backup of affected records',
+                script: "SELECT * INTO Cashmemo_detail_Backup_10102025 FROM CASHMEMO_DETAIL WHERE BATCH <> '1-1' AND SKU = '62768303';"
+            },
+            {
+                id: 'update-cashmemo',
+                order: 2,
+                description: 'Update Cashmemo Detail to correct batch (1-1)',
+                script: "UPDATE CASHMEMO_DETAIL SET BATCH = '1-1' WHERE BATCH <> '1-1' AND SKU = '62768303' AND DOC_NO = ''"
+            },
+            {
+                id: 'update-batch-indexes',
+                order: 3,
+                description: 'Update Batch table indexes',
+                script: "UPDATE BATCH SET BatchIndex = '0' WHERE BATCH <> '1-1' AND SKU = '62768303';\nUPDATE BATCH SET BatchIndex = '1' WHERE BATCH = '1-1' AND SKU = '62768303';"
+            },
+            {
+                id: 'clean-qs-entries',
+                order: 4,
+                description: 'Clean QS_GROUP_DATE_ENTRY records',
+                script: "DELETE FROM QS_GROUP_DATE_ENTRY WHERE DELV_DATE_UPLOADED > '20250101';"
+            },
+            {
+                id: 'delete-wrong-batch',
+                order: 5,
+                description: 'Remove incorrect batch records',
+                script: "DELETE FROM BATCH WHERE BATCH <> '1-1' AND SKU = '62768303';"
+            }
+        ],
+        notes: [
+            'Replace 62768303 with your actual SKU code',
+            'Replace 20250101 with appropriate date for QS cleanup',
+            'Always verify backup is created before proceeding',
+            'Run scripts in the specified order',
+            'Document number (DOC_NO) needs to be specified in step 2',
+            'Consider archiving backup table after successful fix',
+            'Contact support if you need further assistance'
+        ]
+    },
+    {
+        id: 'resolve-inactive-dsr',
+        title: 'Resolve Inactive DSR Issue in FIBN',
+        description: 'Step by step guide to resolve inactive DSR issues that prevent mobility day start',
+        prerequisites: [
+            'Access to the database',
+            'Access to xnapp monitor',
+            'Distributor code',
+            'DSR details'
+        ],
+        steps: [
+            {
+                id: 'check-pjp-status',
+                order: 1,
+                description: 'Check PJP status for DSR',
+                script: "SELECT * FROM PJP_STATUS WHERE DSR IN ('DSR_CODE') AND STATUS = 'Y'"
+            },
+            {
+                id: 'check-dsr-setup',
+                order: 2,
+                description: 'Check DSR setup status',
+                script: "SELECT * FROM DSR WHERE STATUS = 'Y' AND DSR_CODE IN ('DSR_CODE')"
+            },
+            {
+                id: 'check-xnapp',
+                order: 3,
+                description: 'Check xnapp monitor steps',
+                script: "-- Follow these manual steps in xnapp monitor:\n-- 1. Login to xnapp monitor\n-- 2. Search for distributor using distributor code\n-- 3. Navigate to ROUTE -> ROUTE LIST\n-- 4. Find inactive DSRs and check their boxes\n-- 5. Click through to activate them"
+            }
+        ],
+        notes: [
+            'Replace DSR_CODE with your actual DSR codes',
+            'Verify each DSR status in both database and xnapp monitor',
+            'All 3 checks must pass for DSR to be fully active',
+            'Multiple DSR codes can be checked at once using IN clause',
+            'If issues persist after all steps, contact support'
+        ]
+    },
+    {
         id: 'rechannel-pop-ws',
         title: 'Rechannel POP to Wholesaler (WS)',
         description: 'Step by step guide to rechannel a POP to the Wholesaler (WS) channel',
